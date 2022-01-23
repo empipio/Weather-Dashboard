@@ -1,0 +1,18 @@
+.custom-jumbotron {
+  background-color: rgb(53, 139, 238);
+}
+
+.search-field {
+  align-self: left;
+  margin: 20px;
+}
+
+.results {
+  align-self: flex-end;
+  margin: 20px;
+  float: right;
+}
+
+.card {
+  margin: 10px;
+}
