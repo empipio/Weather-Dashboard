@@ -32,25 +32,27 @@ var searchButtonEl = document.getElementById("search-btn");
 
 function getWeather() {
   var city = searchFormEl.value.trim();
-  console.log(city);
+  var queryURL =
+    "http://api.openweathermap.org/data/2.5/weather?q=" +
+    city +
+    "&appid=" +
+    APIKey;
   if (city.length > 0) {
-    //this doesn't appear in console at all
-    fetch(
-      "http://api.openweathermap.org/data/2.5/weather?q=" +
-        city +
-        "&appid=" +
-        APIKey
-    ).then(function (res) {
-      return res.json();
-    });
+    fetch(queryURL)
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (city) {
+        console.log(city);
+      });
   } else {
     alert("Please enter a city");
   }
 }
 
-//this appears as unauthorised?
+// //this appears as unauthorised?
 // fetch(
-//   "http://api.openweathermap.org/data/2.5/weather?q=London&appid=b2b1dbebe8682b"
+//   "http://api.openweathermap.org/data/2.5/weather?q=London&appid=6d7c456cdcc4e591b5b2b1dbebe8682b"
 // ).then(function (res) {
 //   return res.json();
 // });
