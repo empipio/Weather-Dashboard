@@ -14,3 +14,45 @@
 
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
+
+//fetch() today and next 5 days from open weather api
+//render info to page
+//today: name/date/icon/temp/humidity/wind speed/uv index
+//save searched city to local storage
+//allocate colour to uv index
+//5-day: date/icon/temp/wind speed/humidity
+//searched cities saved to page and when clicked on provide same info as when typed in
+//event listener to search button
+
+var APIKey = "6d7c456cdcc4e591b5b2b1dbebe8682b";
+
+var searchFormEl = document.getElementById("search-input");
+
+var searchButtonEl = document.getElementById("search-btn");
+
+function getWeather() {
+  var city = searchFormEl.value.trim();
+  console.log(city);
+  if (city.length > 0) {
+    //this doesn't appear in console at all
+    fetch(
+      "http://api.openweathermap.org/data/2.5/weather?q=" +
+        city +
+        "&appid=" +
+        APIKey
+    ).then(function (res) {
+      return res.json();
+    });
+  } else {
+    alert("Please enter a city");
+  }
+}
+
+//this appears as unauthorised?
+// fetch(
+//   "http://api.openweathermap.org/data/2.5/weather?q=London&appid=b2b1dbebe8682b"
+// ).then(function (res) {
+//   return res.json();
+// });
+
+searchButtonEl.addEventListener("click", getWeather);
