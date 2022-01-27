@@ -34,16 +34,17 @@ var searchedCities = [];
 
 //icon/temp/humidity/wind speed/uv index
 
+//now retrieving from ls and saving to list but no button or spacing
 function renderButtons() {
   var savedCities = JSON.parse(localStorage.getItem("cities"));
-  // for (var i = 0; i < savedCities.length; i++) {
-  //   var listButtonEl = document.getElementById("saved-cities");
-  //   var nameEl = document.createElement("li");
-  //   var buttonEl = document.createElement("button");
-  //   buttonEl[i].innertext = searchedCities[i].value;
-  //   nameEl[i].appendchild(buttonEl[i]);
-  //   listButtonEl.appendChild(nameEl);
-  // }
+  for (var i = 0; i < savedCities.length; i++) {
+    var listButtonEl = document.getElementById("saved-cities");
+    var nameEl = document.createElement("li");
+    var buttonEl = document.createElement("button");
+    nameEl[i] = savedCities[i];
+    listButtonEl.append(nameEl[i]);
+    nameEl.append(buttonEl);
+  }
 }
 
 function saveResults() {
@@ -94,20 +95,64 @@ function getWeather() {
               city.current.humidity,
               city.current.temp,
               city.current.uvi,
+              //need to colour code uv index
             ];
-            console.log(conditionsArr);
+            console.log(city);
             var headerArr = [
               "Today will be: ",
               "Wind Speed: ",
               "Humidity: ",
               "Temperature: ",
-              "UVI index: ",
+              "UV index: ",
             ];
-            // for (var i = 0; i < headerArr.length; i++) {
-            //   var conditionEl = document.createElement("li");
-            //   conditionEl[i] = headerArr[i] + conditionsArr[i]; //conditionEl[i].value or textcontent doesn't work!
-            // todaysDateEl.appendChild(conditionEl[i]);
-            //  }
+            for (var i = 0; i < headerArr.length; i++) {
+              var conditionEl = document.createElement("li");
+              conditionEl[i] = headerArr[i] + conditionsArr[i];
+              todaysDateEl.append(conditionEl[i]);
+
+              //for UV: low 0-2, mod 3-6, high 7+. Change text colour and add description?
+            }
+
+            //5 DAY STUFF BELOW NOT YET FINISHED
+
+            //for 5 day forecast (in daily array this is positions 1-5 and is timestamped-convert back for date?)
+            //get relevant info from api
+            //date, icon, temperature, windspeed, humidity
+            //for loop, make a card for each day and render info to each
+            //colour code UV index
+            // var forecastHeaders = [
+            //   "Date: ",
+            //   "The weather will be: ",
+            //   "Temperature: ",
+            //   "Wind Speed: ",
+            //   "Humidity: ",
+            // ];
+
+            // for (var i = 1; i < forecastHeaders.length; i++) {
+            //   var forecastArr = [
+            //     city.daily[i].dt,
+            //     city.daily[i].weather[0].icon,
+            //     city.daily[i].temp.day,
+            //     city.daily[i].wind_speed,
+            //     city.daily[i].humidity,
+            //   ];
+
+            //   var resultsArea = document.getElementById("5-day-forecast");
+            //   var resultCard = document.createElement("div");
+            //   resultCard.classList.add("card");
+            //   resultCard.append(resultsArea);
+
+            //   var resultBody = document.createElement("div");
+            //   resultBody.classList.add("card-body");
+            //   resultCard.append(resultBody);
+
+            //   var titleEl = document.createElement("ul");
+            //   titleEl.textContent = city.daily[i].dt;
+            //   resultBody.append(titleEl);
+
+            //   var forecastInfo = document.createElement("li");
+            //   forecastInfo.textContent = forecastHeaders[i] + forecastArr[i];
+            // }
           });
       });
   } else {
