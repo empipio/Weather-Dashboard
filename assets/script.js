@@ -34,16 +34,16 @@ var searchedCities = [];
 
 //icon/temp/humidity/wind speed/uv index
 
-//now retrieving from ls and saving to list but no button or spacing
+//brings everything out of LS every time another search occurs!!!
 function renderButtons() {
   var savedCities = JSON.parse(localStorage.getItem("cities"));
   for (var i = 0; i < savedCities.length; i++) {
     var listButtonEl = document.getElementById("saved-cities");
     var nameEl = document.createElement("li");
     var buttonEl = document.createElement("button");
-    nameEl[i] = savedCities[i];
-    listButtonEl.append(nameEl[i]);
+    buttonEl.innerText = savedCities[i];
     nameEl.append(buttonEl);
+    listButtonEl.append(nameEl);
   }
 }
 
