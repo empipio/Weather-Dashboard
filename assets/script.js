@@ -30,31 +30,91 @@ var searchFormEl = document.getElementById("search-input");
 
 var searchButtonEl = document.getElementById("search-btn");
 
+var searchedCities = [];
+
+//icon/temp/humidity/wind speed/uv index
+
+function renderButtons() {
+  var savedCities = JSON.parse(localStorage.getItem("cities"));
+  // for (var i = 0; i < savedCities.length; i++) {
+  //   var listButtonEl = document.getElementById("saved-cities");
+  //   var nameEl = document.createElement("li");
+  //   var buttonEl = document.createElement("button");
+  //   buttonEl[i].innertext = searchedCities[i].value;
+  //   nameEl[i].appendchild(buttonEl[i]);
+  //   listButtonEl.appendChild(nameEl);
+  // }
+}
+
+function saveResults() {
+  var searchTerm = searchFormEl.value.trim();
+  searchedCities.push(searchTerm);
+  localStorage.setItem("cities", JSON.stringify(searchedCities));
+  renderButtons();
+}
+
 function getWeather() {
+  console.log("you clicked a button");
   var city = searchFormEl.value.trim();
-  var queryURL =
-    "http://api.openweathermap.org/data/2.5/weather?q=" +
+
+  var coordURL =
+    "http://api.openweathermap.org/geo/1.0/direct?q=" +
     city +
-    "&appid=" +
+    "&limit=1&appid=" +
     APIKey;
+
   if (city.length > 0) {
-    fetch(queryURL)
+    fetch(coordURL)
       .then(function (res) {
         return res.json();
       })
       .then(function (city) {
-        console.log(city);
+        var latitude = city[0].lat;
+        var longitude = city[0].lon;
+        var queryURL =
+          "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+          latitude +
+          "&lon=" +
+          longitude +
+          "&exclude=minutely,hourly&appid=" +
+          APIKey;
+
+        fetch(queryURL)
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (city) {
+            var cityNameEl = document.getElementById("city-name");
+            cityNameEl.textContent = searchFormEl.value;
+            var todaysDateEl = document.getElementById("date");
+            todaysDateEl.textContent = moment().format("MMM Do, YYYY");
+            var conditionsArr = [
+              city.current.weather[0].icon,
+              city.current.wind_speed,
+              city.current.humidity,
+              city.current.temp,
+              city.current.uvi,
+            ];
+            console.log(conditionsArr);
+            var headerArr = [
+              "Today will be: ",
+              "Wind Speed: ",
+              "Humidity: ",
+              "Temperature: ",
+              "UVI index: ",
+            ];
+            // for (var i = 0; i < headerArr.length; i++) {
+            //   var conditionEl = document.createElement("li");
+            //   conditionEl[i] = headerArr[i] + conditionsArr[i]; //conditionEl[i].value or textcontent doesn't work!
+            // todaysDateEl.appendChild(conditionEl[i]);
+            //  }
+          });
       });
   } else {
     alert("Please enter a city");
   }
+  saveResults();
 }
 
-// //this appears as unauthorised?
-// fetch(
-//   "http://api.openweathermap.org/data/2.5/weather?q=London&appid=6d7c456cdcc4e591b5b2b1dbebe8682b"
-// ).then(function (res) {
-//   return res.json();
-// });
-
+renderButtons();
 searchButtonEl.addEventListener("click", getWeather);

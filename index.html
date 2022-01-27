@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
+    ></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/styles.css">
 </head>
@@ -21,14 +25,15 @@
         <input id="search-input" class="form-input" type="text" placeholder="Enter city here">
         <button id="search-btn">Search</button>    
     </div>
-    <div class="card col-3" id="saved-cities">
-        <ul id="saved cities">Your Previous Cities</ul>
+    <div class="card col-3">
+        <ul id="saved-cities">Your Previous Cities</ul>
     </div>
 </div>    
     
 <div class="container col-9" id="results">   
     <div class="card col-9" id="results-today">
-        <h2 id="cityName"></h2>
+        <h2 id="city-name"></h2>
+        <ul id="date"></ul>
         <p>results go here</p>
     </div> 
     <div class="row"> 
