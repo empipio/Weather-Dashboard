@@ -99,6 +99,7 @@ function getWeather() {
             var todayLabel = document.createElement("p");
             todayLabel.innerText = "Today will be: ";
             todayEl.append(todayLabel);
+
             var todayIcon = document.createElement("img");
             todayIcon.setAttribute(
               "src",
@@ -111,9 +112,11 @@ function getWeather() {
             windEl.innerText =
               "Wind speed: " + city.current.wind_speed + " MPH";
             todaysDateEl.append(windEl);
+
             var humidityEl = document.createElement("li");
             humidityEl.innerText = "Humidity: " + city.current.humidity + " %";
             todaysDateEl.append(humidityEl);
+
             var temperatureEl = document.createElement("li");
             temperatureEl.innerText =
               "Temperature: " + city.current.temp + " degrees";
@@ -142,41 +145,85 @@ function getWeather() {
             //date, icon, temperature, windspeed, humidity
             //for loop, make a card for each day and render info to each
             //colour code UV index
-            var forecastHeaders = [
-              "Date: ",
-              "The weather will be: ",
-              "Temperature: ",
-              "Wind Speed: ",
-              "Humidity: ",
-            ];
 
-            for (var i = 1; i < forecastHeaders.length; i++) {
-              var forecastArr = [
-                city.daily[i].dt,
-                city.daily[i].weather[0].icon,
-                city.daily[i].temp.day,
-                city.daily[i].wind_speed,
-                city.daily[i].humidity,
-              ];
-              //how to put all the info on each card? two loops? nest them?
-              var resultsArea = document.getElementById("5-day-forecast");
+            var resultsArea = document.getElementById("5-day-forecast");
+            //starting for loop at 1 as index position 0 is current day already displayed
+            for (var i = 1; i <= 5; i++) {
               var resultCard = document.createElement("div");
               resultCard.classList.add("card");
-              resultsArea.append(resultCard);
 
               var resultBody = document.createElement("div");
               resultBody.classList.add("card-body");
               resultCard.append(resultBody);
-              for (var i = 1; i < forecastHeaders.length; i++) {
-                var titleEl = document.createElement("ul");
-                titleEl.textContent = city.daily[i].dt;
-                resultBody.append(titleEl);
 
-                var forecastInfo = document.createElement("li");
-                forecastInfo.textContent = forecastHeaders[i] + forecastArr[i];
-                resultBody.append(forecastInfo);
-              }
+              var dailyDate = moment(city.daily[i].dt);
+              console.log(dailyDate);
+
+              var formattedDate = dailyDate.format("dddd, MMMM Do");
+
+              var titleEl = document.createElement("h4");
+              titleEl.textContent = formattedDate;
+              resultBody.append(titleEl);
+
+              var iconImage = document.createElement("img");
+              iconImage.setAttribute(
+                "src",
+                `http://openweathermap.org/img/wn/${city.daily[i].weather[0].icon}@2x.png`
+              );
+              resultBody.append(iconImage);
+
+              var windSpeed = document.createElement("div");
+              windSpeed.innerText =
+                "Wind speed: " + city.daily[i].wind_speed + " MPH";
+              resultBody.append(windSpeed);
+
+              var humidity = document.createElement("div");
+              humidity.innerText = "Humidity: " + city.daily[i].humidity + " %";
+              resultBody.append(humidity);
+
+              var temperature = document.createElement("div");
+              temperature.innerText =
+                "Temperature: " + city.daily[i].temp.day + " degrees";
+              resultBody.append(temperature);
+
+              resultsArea.append(resultCard);
             }
+
+            // var forecastHeaders = [
+            //   "Date: ",
+            //   "The weather will be: ",
+            //   "Temperature: ",
+            //   "Wind Speed: ",
+            //   "Humidity: ",
+            // ];
+
+            // for (var i = 1; i < forecastHeaders.length; i++) {
+            //   var forecastArr = [
+            //     city.daily[i].dt,
+            //     city.daily[i].weather[0].icon,
+            //     city.daily[i].temp.day,
+            //     city.daily[i].wind_speed,
+            //     city.daily[i].humidity,
+            //   ];
+            //   //how to put all the info on each card? two loops? nest them?
+
+            //   var resultCard = document.createElement("div");
+            //   resultCard.classList.add("card");
+            //   resultsArea.append(resultCard);
+
+            //   var resultBody = document.createElement("div");
+            //   resultBody.classList.add("card-body");
+            //   resultCard.append(resultBody);
+            //   for (var i = 1; i < forecastHeaders.length; i++) {
+            //     var titleEl = document.createElement("ul");
+            //     titleEl.textContent = city.daily[i].dt;
+            //     resultBody.append(titleEl);
+
+            //     var forecastInfo = document.createElement("li");
+            //     forecastInfo.textContent = forecastHeaders[i] + forecastArr[i];
+            //     resultBody.append(forecastInfo);
+            //   }
+            // }
           });
       });
   } else {
