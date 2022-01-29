@@ -1,20 +1,14 @@
-//fetch() today and next 5 days from open weather api
-//render info to page
-//today: name/date/icon/temp/humidity/wind speed/uv index
-//save searched city to local storage
-//allocate colour to uv index
-//5-day: date/icon/temp/wind speed/humidity
-//searched cities saved to page and when clicked on provide same info as when typed in
-//event listener to search button
-
 var APIKey = "6d7c456cdcc4e591b5b2b1dbebe8682b";
 
+//variables declared for search field
 var searchFormEl = document.getElementById("search-input");
 
 var searchButtonEl = document.getElementById("search-btn");
 
+//empty array in which to store cities previously searched for
 var searchedCities = [];
 
+//renders buttons to screen of cities previously searched for
 function renderButtons() {
   var savedCities = JSON.parse(localStorage.getItem("cities"));
   if (savedCities !== null) {
@@ -27,10 +21,12 @@ function renderButtons() {
       nameEl.append(buttonEl);
       listButtonEl.append(nameEl);
     }
+    //updates array
     searchedCities = savedCities;
   }
 }
 
+//saves city search to local storage and creates button
 function saveResults(searchTerm) {
   //checks searchedCities array to see if searchTerm is already present
   if (!searchedCities.includes(searchTerm)) {
@@ -51,6 +47,7 @@ function saveResults(searchTerm) {
 function getWeather(event) {
   var citySearch = null;
 
+  //if nothing present in search bar, check for clicks on previous city buttons
   if (searchFormEl.value === "") {
     citySearch = event.target.innerText;
   } else {
@@ -58,12 +55,14 @@ function getWeather(event) {
   }
   saveResults(citySearch);
 
+  //get coordinates of city
   var coordURL =
     "http://api.openweathermap.org/geo/1.0/direct?q=" +
     citySearch +
     "&limit=1&appid=" +
     APIKey;
 
+  //use one call api to get forecast using coordinates
   if (citySearch.length > 0) {
     fetch(coordURL)
       .then(function (res) {
@@ -85,6 +84,8 @@ function getWeather(event) {
             return res.json();
           })
           .then(function (city) {
+            //CURRENT DAY FORECAST
+            //create html elements to display results
             var cityNameEl = document.getElementById("city-name");
             cityNameEl.textContent = citySearch;
             var todaysDateEl = document.getElementById("date");
@@ -115,6 +116,7 @@ function getWeather(event) {
             todaysDateEl.append(humidityEl);
 
             var temperatureEl = document.createElement("li");
+            //convert temperature from kelvin to celcius
             temperatureEl.innerText =
               "Temperature: " +
               (city.current.temp - 273.15).toFixed(0) +
@@ -126,6 +128,7 @@ function getWeather(event) {
             var uvText = document.createElement("p");
             uvText.innerText = "UV index: " + city.current.uvi;
             uvText.setAttribute("style", "color: white");
+            //conditional statements to allocate colour according to uv index
             if (city.current.uvi < 3) {
               uvBox.setAttribute("style", "background-color: green");
             } else if (city.current.uvi < 7) {
@@ -137,10 +140,13 @@ function getWeather(event) {
             uvContainer.append(uvBox);
             todaysDateEl.append(uvContainer);
 
+            //5 DAY FORECAST
             var resultsArea = document.getElementById("5-day-forecast");
+            //clear results area from previous search
             resultsArea.innerHTML = "";
             //starting for loop at 1 as index position 0 is current day already displayed
             for (var i = 1; i <= 5; i++) {
+              //create html elements to display 5 day forecast
               var resultCard = document.createElement("div");
               resultCard.classList.add("card");
 
@@ -193,9 +199,11 @@ function getWeather(event) {
 
 var previousSearches = document.getElementsByClassName("searchedButtons");
 
+//render previous searches to screen on loading
 renderButtons();
 searchButtonEl.addEventListener("click", getWeather);
 
+//add event listeners to previous search buttons
 for (var i = 0; i < previousSearches.length; i++) {
   previousSearches[i].addEventListener("click", getWeather);
 }
