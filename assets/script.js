@@ -155,7 +155,6 @@ function getWeather(event) {
               resultCard.append(resultBody);
 
               var dailyDate = moment.unix(city.daily[i].dt);
-              console.log(dailyDate);
 
               var formattedDate = dailyDate.format("dddd, MMMM Do");
 
