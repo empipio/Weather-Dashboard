@@ -57,7 +57,7 @@ function getWeather(event) {
 
   //get coordinates of city
   var coordURL =
-    "http://api.openweathermap.org/geo/1.0/direct?q=" +
+    "https://api.openweathermap.org/geo/1.0/direct?q=" +
     citySearch +
     "&limit=1&appid=" +
     APIKey;
@@ -101,7 +101,7 @@ function getWeather(event) {
             var todayIcon = document.createElement("img");
             todayIcon.setAttribute(
               "src",
-              `http://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`
+              `https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`
             );
             todayEl.append(todayIcon);
             todaysDateEl.append(todayEl);
@@ -166,7 +166,7 @@ function getWeather(event) {
               var iconImage = document.createElement("img");
               iconImage.setAttribute(
                 "src",
-                `http://openweathermap.org/img/wn/${city.daily[i].weather[0].icon}@2x.png`
+                `https://openweathermap.org/img/wn/${city.daily[i].weather[0].icon}@2x.png`
               );
               resultBody.append(iconImage);
 
