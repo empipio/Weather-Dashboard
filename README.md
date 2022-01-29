@@ -1,6 +1,6 @@
 # Homework 6: Weather Dashboard
 
-This project uses the Open Weather one-call API to retrieve weather forecast for a city of the user's choosing. The acceptance criteria for the project were as follows:
+This project uses the Open Weather one-call API to retrieve the current and five-day weather forecast for a city of the user's choosing. The acceptance criteria for the project were as follows:
 
 ```
 WHEN I search for a city
@@ -21,6 +21,7 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
 
+Below shows a screenshot of the completed application:
 ![screenshot of application](assets/weather-screenshot.png)
 
-The link to the project is as follows:
+The link to the project is as follows: https://empipio.github.io/h6-weather-dashboard/
