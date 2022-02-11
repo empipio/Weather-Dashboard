@@ -1,21 +1,21 @@
-var APIKey = "6d7c456cdcc4e591b5b2b1dbebe8682b";
+const APIKey = "6d7c456cdcc4e591b5b2b1dbebe8682b";
 
 //variables declared for search field
-var searchFormEl = document.getElementById("search-input");
+const searchFormEl = document.getElementById("search-input");
 
-var searchButtonEl = document.getElementById("search-btn");
+const searchButtonEl = document.getElementById("search-btn");
 
 //empty array in which to store cities previously searched for
-var searchedCities = [];
+let searchedCities = [];
 
 //renders buttons to screen of cities previously searched for
 function renderButtons() {
-  var savedCities = JSON.parse(localStorage.getItem("cities"));
+  const savedCities = JSON.parse(localStorage.getItem("cities"));
   if (savedCities !== null) {
-    for (var i = 0; i < savedCities.length; i++) {
-      var listButtonEl = document.getElementById("saved-cities");
-      var nameEl = document.createElement("li");
-      var buttonEl = document.createElement("button");
+    for (let i = 0; i < savedCities.length; i++) {
+      const listButtonEl = document.getElementById("saved-cities");
+      const nameEl = document.createElement("li");
+      const buttonEl = document.createElement("button");
       buttonEl.innerText = savedCities[i];
       buttonEl.setAttribute("class", "searchedButtons");
       nameEl.append(buttonEl);
@@ -33,9 +33,9 @@ function saveResults(searchTerm) {
     searchedCities.push(searchTerm);
     localStorage.setItem("cities", JSON.stringify(searchedCities));
 
-    var listButtonEl = document.getElementById("saved-cities");
-    var nameEl = document.createElement("li");
-    var buttonEl = document.createElement("button");
+    const listButtonEl = document.getElementById("saved-cities");
+    const nameEl = document.createElement("li");
+    const buttonEl = document.createElement("button");
     buttonEl.innerText = searchTerm;
     buttonEl.setAttribute("class", "searchedButtons");
     nameEl.append(buttonEl);
@@ -45,7 +45,7 @@ function saveResults(searchTerm) {
 }
 
 function getWeather(event) {
-  var citySearch = null;
+  let citySearch = null;
 
   //if nothing present in search bar, check for clicks on previous city buttons
   if (searchFormEl.value === "") {
@@ -56,7 +56,7 @@ function getWeather(event) {
   saveResults(citySearch);
 
   //get coordinates of city
-  var coordURL =
+  const coordURL =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
     citySearch +
     "&limit=1&appid=" +
@@ -69,9 +69,9 @@ function getWeather(event) {
         return res.json();
       })
       .then(function (city) {
-        var latitude = city[0].lat;
-        var longitude = city[0].lon;
-        var queryURL =
+        const latitude = city[0].lat;
+        const longitude = city[0].lon;
+        const queryURL =
           "https://api.openweathermap.org/data/2.5/onecall?lat=" +
           latitude +
           "&lon=" +
@@ -86,19 +86,19 @@ function getWeather(event) {
           .then(function (city) {
             //CURRENT DAY FORECAST
             //create html elements to display results
-            var cityNameEl = document.getElementById("city-name");
+            const cityNameEl = document.getElementById("city-name");
             cityNameEl.textContent = citySearch;
-            var todaysDateEl = document.getElementById("date");
+            const todaysDateEl = document.getElementById("date");
             todaysDateEl.textContent = moment().format("MMM Do, YYYY");
-            var divElTwo = document.createElement("div");
+            const divElTwo = document.createElement("div");
             todaysDateEl.append(divElTwo);
 
-            var todayEl = document.createElement("li");
-            var todayLabel = document.createElement("p");
+            const todayEl = document.createElement("li");
+            const todayLabel = document.createElement("p");
             todayLabel.innerText = "Today will be: ";
             todayEl.append(todayLabel);
 
-            var todayIcon = document.createElement("img");
+            const todayIcon = document.createElement("img");
             todayIcon.setAttribute(
               "src",
               `https://openweathermap.org/img/wn/${city.current.weather[0].icon}@2x.png`
@@ -106,16 +106,16 @@ function getWeather(event) {
             todayEl.append(todayIcon);
             todaysDateEl.append(todayEl);
 
-            var windEl = document.createElement("li");
+            const windEl = document.createElement("li");
             windEl.innerText =
               "Wind speed: " + city.current.wind_speed + " MPH";
             todaysDateEl.append(windEl);
 
-            var humidityEl = document.createElement("li");
+            const humidityEl = document.createElement("li");
             humidityEl.innerText = "Humidity: " + city.current.humidity + " %";
             todaysDateEl.append(humidityEl);
 
-            var temperatureEl = document.createElement("li");
+            const temperatureEl = document.createElement("li");
             //convert temperature from kelvin to celcius
             temperatureEl.innerText =
               "Temperature: " +
@@ -123,9 +123,9 @@ function getWeather(event) {
               " degrees Celcius";
             todaysDateEl.append(temperatureEl);
 
-            var uvContainer = document.createElement("li");
-            var uvBox = document.createElement("div");
-            var uvText = document.createElement("p");
+            const uvContainer = document.createElement("li");
+            const uvBox = document.createElement("div");
+            const uvText = document.createElement("p");
             uvText.innerText = "UV index: " + city.current.uvi;
             uvText.setAttribute("style", "color: white");
             //conditional statements to allocate colour according to uv index
@@ -141,44 +141,44 @@ function getWeather(event) {
             todaysDateEl.append(uvContainer);
 
             //5 DAY FORECAST
-            var resultsArea = document.getElementById("5-day-forecast");
+            const resultsArea = document.getElementById("5-day-forecast");
             //clear results area from previous search
             resultsArea.innerHTML = "";
             //starting for loop at 1 as index position 0 is current day already displayed
-            for (var i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 5; i++) {
               //create html elements to display 5 day forecast
-              var resultCard = document.createElement("div");
+              const resultCard = document.createElement("div");
               resultCard.classList.add("card");
 
-              var resultBody = document.createElement("div");
+              const resultBody = document.createElement("div");
               resultBody.classList.add("card-body");
               resultCard.append(resultBody);
 
-              var dailyDate = moment.unix(city.daily[i].dt);
+              const dailyDate = moment.unix(city.daily[i].dt);
 
-              var formattedDate = dailyDate.format("dddd, MMMM Do");
+              const formattedDate = dailyDate.format("dddd, MMMM Do");
 
-              var titleEl = document.createElement("h4");
+              const titleEl = document.createElement("h4");
               titleEl.textContent = formattedDate;
               resultBody.append(titleEl);
 
-              var iconImage = document.createElement("img");
+              const iconImage = document.createElement("img");
               iconImage.setAttribute(
                 "src",
                 `https://openweathermap.org/img/wn/${city.daily[i].weather[0].icon}@2x.png`
               );
               resultBody.append(iconImage);
 
-              var windSpeed = document.createElement("div");
+              const windSpeed = document.createElement("div");
               windSpeed.innerText =
                 "Wind speed: " + city.daily[i].wind_speed + " MPH";
               resultBody.append(windSpeed);
 
-              var humidity = document.createElement("div");
+              const humidity = document.createElement("div");
               humidity.innerText = "Humidity: " + city.daily[i].humidity + " %";
               resultBody.append(humidity);
 
-              var temperature = document.createElement("div");
+              const temperature = document.createElement("div");
               temperature.innerText =
                 "Temperature: " +
                 (city.daily[i].temp.day - 273.15).toFixed(0) +
@@ -196,13 +196,13 @@ function getWeather(event) {
   }
 }
 
-var previousSearches = document.getElementsByClassName("searchedButtons");
+const previousSearches = document.getElementsByClassName("searchedButtons");
 
 //render previous searches to screen on loading
 renderButtons();
 searchButtonEl.addEventListener("click", getWeather);
 
 //add event listeners to previous search buttons
-for (var i = 0; i < previousSearches.length; i++) {
+for (let i = 0; i < previousSearches.length; i++) {
   previousSearches[i].addEventListener("click", getWeather);
 }
