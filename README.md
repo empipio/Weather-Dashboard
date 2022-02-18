@@ -26,4 +26,6 @@ Below shows a screenshot of the completed application:
 
 The link to the project is as follows: https://empipio.github.io/h6-weather-dashboard/
 
+License: MIT
+
 Contact: emckibben@hotmail.co.uk
