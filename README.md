@@ -1,4 +1,4 @@
-# Homework 6: Weather Dashboard
+# Weather Dashboard
 
 This project uses the Open Weather one-call API to retrieve the current and five-day weather forecast for a city of the user's choosing. Other technologies used include html, css, bootstrap and javascript. The acceptance criteria for the project were as follows:
 
